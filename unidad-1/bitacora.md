@@ -168,8 +168,111 @@ https://editor.p5js.org/Nicofon1/sketches/-eHHCTw5U
 
 <img width="647" height="240" alt="image" src="https://github.com/user-attachments/assets/85eedd56-d5c4-41d1-8e88-9091fef09ee0" />
 
+
+### Actividad 05
+
++ Crea un nuevo sketch en p5.js donde modifiques uno de los ejemplos anteriores y adiciones de Lévy flight.
+
+R/ 
+```js
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+let walker;
+
+function setup() {
+  createCanvas(860, 860);
+  walker = new Walker();
+  background(200);
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    noStroke();
+    fill(color(random(255), random(255), random(255)));
+    circle(this.x, this.y,7);
+  }
+  
+  
+
+  step() {
+    const choice = floor(random(4));
+    if (choice == 0) {
+      this.x=this.x+5;
+    } else if (choice == 1) {
+      this.x=this.x-5;
+    } else if (choice == 2) {
+      this.y=this.y+5;
+    } else {
+      this.y=this.y-5;
+    }
+    
+    if(floor(random(20))==2)
+      if (choice == 0) {
+        this.x=this.x+25;
+      } else if (choice == 1) {
+        this.x=this.x-25;
+      } else if (choice == 2) {
+        this.y=this.y+25;
+      } else {
+        this.y=this.y-25;
+      }
+  }
+}
+
+```
+
++ Explica por qué usaste esta técnica y qué resultados esperabas obtener.
+
+R/ puse que con una probabilidade de 1/20 el punto le adicionara 25px a su salto y esperava ver pequeños recorridos  con largos espacios en medio
+
+<img width="587" height="405" alt="image" src="https://github.com/user-attachments/assets/526ca2bf-1552-422d-afc3-487ec66c08ee" />
+
+https://editor.p5js.org/Nicofon1/sketches/BZio1KE1f
+
+### Actividad 06
+
++ Crea un nuevo sketch en p5.js donde los visualices.
+
+R/
+```js
+let t=0;
+function setup() {
+  createCanvas(400, 400);
+  background(220);
+  
+}
+
+function draw() {
+  t+=0.01;
+  noStroke();
+  fill(color(random(255), random(255), random(255)));
+  circle(noise(t)*400, noise(t+2)*400,7);
+}
+```
+
++ Explica el concepto qué resultados esberabas obtener.
+
+R/ espero una esfera mulricolor dejando rastro por todo el camino que va recorriendo.
+
+<img width="361" height="359" alt="image" src="https://github.com/user-attachments/assets/08019aef-6016-41da-800d-2c254919ea63" />
+https://editor.p5js.org/Nicofon1/sketches/9miwcLNzu
+
+
 ## Bitácora de aplicación 
 
 
 
 ## Bitácora de reflexión
+
