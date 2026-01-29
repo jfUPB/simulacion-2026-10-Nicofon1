@@ -333,4 +333,34 @@ https://editor.p5js.org/Nicofon1/sketches/73jvq-DcX
 
 ## Bitácora de reflexión
 
+### Actividad 08
+
++ Describe la diferencia fundamental entre la aleatoriedad generada por random() y la apariencia de aleatoriedad del Ruido Perlin (noise()). ¿En qué tipo de situación usarías cada una?
+
+R/ la de noise tiene sierta naturalidad y continuida en ella mientras q la random no, el noise es bueno para caminatas o generacion de terrenos mientras q el random para definir probabilidades de un suceso;
+
++ Explica con tus palabras qué es una distribución de probabilidad. ¿Qué diferencia visual produce una caminata aleatoria con una distribución uniforme versus una con una distribución normal?
+
+R/ una distribucion de probabilidad es como se reperte la probable ocurrencia de un suceso entre entre todos los posibles resultados, la diferencia entre las caminatas es q la normal va a tender a una "media" mientraas que la uniforme no
+
+
+
++ ¿Cuál es el papel de la aleatoriedad en el arte generativo? Menciona al menos dos funciones distintas que cumple
+
+R/ La aleatoriedad en el arte generativo básicamente evita que todo sea rígido y repetitivo, metiendo variaciones inesperadas que hacen que cada resultado salga distinto sin que el sistema se vuelva caótico.
+
+
+
+
++ Piensa en tu obra final (Actividad 07). Describe uno de los conceptos de aleatoriedad que usaste y explica por qué fue una elección adecuada para lograr el efecto que buscabas.
+
+R/ para generar el color de la linea que va rotando use noise, ya que deseaba consegui una continuidad entre los colores anteriores y posteriores y se pudo lograr un fondo aleatoreo pero no caotico.
+
+
+
++ ¿Qué es un “paseo” o “caminata” (walk) en el contexto de la simulación? ¿Qué característica particular tiene una caminata de tipo “Lévy flight”?
+
+R/ es cuando un "ente" recorre un entorno, la caracteristica principal es q con una baja probabilidad puede pegar saltos repentinos de un punto a otro
+
+
 
