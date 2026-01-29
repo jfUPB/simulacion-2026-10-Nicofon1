@@ -267,12 +267,70 @@ function draw() {
 R/ espero una esfera mulricolor dejando rastro por todo el camino que va recorriendo.
 
 <img width="361" height="359" alt="image" src="https://github.com/user-attachments/assets/08019aef-6016-41da-800d-2c254919ea63" />
+
 https://editor.p5js.org/Nicofon1/sketches/9miwcLNzu
+
 
 
 ## Bitácora de aplicación 
 
+### Actividad 07
 
++ Un texto donde expliques el concepto de obra generativa.
+
+R/ Esta obra es un experimento visual sobre la acumulación y el movimiento. La imagen se construye a partir de sus propios estados anteriores, que se reescalan y permanecen en pantalla, generando una sensación de profundidad y expansión continua. Un punto en rotación traza líneas hacia el centro, creando un ritmo constante, mientras pequeñas partículas aparecen de forma aleatoria, aportando variación y textura. El resultado es una composición en cambio permanente, donde el trazo, el color y el tiempo se superponen sin borrarse.
+
+```js
+t=0;
+angle=0;
+radio = 100;
+
+
+function setup() {
+  createCanvas(400, 400);
+  background(220);
+  
+}
+
+function draw() {
+  let img = get();
+  push();
+  imageMode(CENTER);
+  translate(width/2,height/2)
+  scale(1.01);
+  
+  image(img,0,0);
+  pop();
+  t+=0.02;
+  angle+=0.04;
+  
+    radio=abs(width/2-mouseX)
+  let posC = rotatingPoint(angle,radio)
+  
+  stroke(color(floor(noise(t+2)*250), floor(noise(t)*250), floor(noise(t+6)*250)));
+  strokeWeight(5);
+  line(posC.x,posC.y,width/2,height/2);
+  
+  
+  noStroke();
+  fill(color(random(255), random(255), random(255)));
+  circle(randomGaussian(200, 20),randomGaussian(200, 20),5);
+  circle(randomGaussian(200, 40),randomGaussian(200, 40),3);
+}
+function rotatingPoint(a,r){
+  return{
+    x : width/2+cos(a)*r,
+    y : height/2+sin(a)*r
+    
+}
+}
+```
+
+
+<img width="357" height="363" alt="image" src="https://github.com/user-attachments/assets/bd4b5dea-2b68-460e-85ae-06e17813cb92" />
+
+https://editor.p5js.org/Nicofon1/sketches/73jvq-DcX
 
 ## Bitácora de reflexión
+
 
