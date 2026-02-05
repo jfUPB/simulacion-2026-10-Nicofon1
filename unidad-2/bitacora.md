@@ -122,28 +122,34 @@ R/ permite normalizar la magnitud del vector a 1, lo que nos permite usar la dir
 
 + Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método dot()? ¿Qué le responderías en un frase?
 
-R/
+R/ sirve para saber qué tan alineados están dos vectores.
 
 
 + El método dot() tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?
 
-R/
+R/ la de instancia se llama desde un vector, la estática recibe dos vectores como parámetros.
 
 
 + ¿Cuál es la interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.
 
-R/
+R/ el resultado es un vector perpendicular a los dos originales, su magnitud depende del ángulo entre ellos y la orientación sigue la regla de la mano derecha.
 
 
 + ¿Para que te puede servir el método dist()?
 
-R/
+R/ para calcular la distancia entre dos puntos o vectores.
 
 
 + ¿Para qué sirven los métodos normalize() y limit()?
 
-R/
+R/ normalize() fija la magnitud en 1 y limit() restringe la magnitud máxima del vector.
 
+### Actividad 06
+
++ ¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?
+
+R/ mag() devuelve la magnitud del vector, con magSq() se ahorra la raiz lo cual es comveniente para el computo
 
 
 ## Bitácora de reflexión
+
