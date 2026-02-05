@@ -150,6 +150,12 @@ R/ normalize() fija la magnitud en 1 y limit() restringe la magnitud máxima del
 
 R/ mag() devuelve la magnitud del vector, con magSq() se ahorra la raiz lo cual es comveniente para el computo
 
+### Actividad 07
+
++ Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+
+R/ es una manera de simular fisicas de aceleracion velocidad y posicion y 
 
 ## Bitácora de reflexión
+
 
