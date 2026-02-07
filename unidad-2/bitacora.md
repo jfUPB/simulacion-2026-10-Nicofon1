@@ -214,9 +214,25 @@ R/ Se dibuja una línea con la dirección del vector y se rota un triángulo al 
 
 + Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
 
-R/ es una manera de simular fisicas de aceleracion velocidad y posicion y 
+R/ 
+Motion 101 describe el movimiento como la acumulación de vectores a lo largo del tiempo.
+
+Un objeto tiene una posición, que cambia al sumarle un vector de velocidad, y esta a su vez puede cambiar al sumarle un vector de aceleración.
+
+Geométricamente, el movimiento se interpreta como vectores encadenados:
+
+cada frame la posición se desplaza en la dirección y magnitud de la velocidad, y la velocidad se modifica según la aceleración.
+
++ Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+
+R/ 
+En el código, el objeto parte desde el centro con velocidad inicial cero.
+Una aceleración constante hacia la izquierda y abajo se acumula en la velocidad en cada frame, aumentando su magnitud progresivamente.
+La velocidad se limita con topSpeed, y luego se aplica a la posición, haciendo que el objeto caiga diagonalmente hasta alcanzar una velocidad máxima estable.
+
 
 ## Bitácora de reflexión
+
 
 
 
