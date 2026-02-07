@@ -146,9 +146,69 @@ R/ normalize() fija la magnitud en 1 y limit() restringe la magnitud máxima del
 
 ### Actividad 06
 
-+ ¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?
++ El código que genera el resultado.
 
-R/ mag() devuelve la magnitud del vector, con magSq() se ahorra la raiz lo cual es comveniente para el computo
+R/
+```js
+let t =0;
+let d =0.01;
+function setup() {
+    createCanvas(500, 500);
+}
+
+function draw() {
+    background(200);
+    if(t>1)
+    d=-0.01;
+    if(t<0)
+    d=0.01;
+    
+    t+=d;
+  
+    let v0 = createVector(50, 50);
+    let v1 = createVector(350, 0);
+    let v2 = createVector(0, 350);
+    let v4 = createVector(400, 50);
+    let v5 = createVector(-350, 350);
+    let c1 = color(0, 0, 255);
+    let c2 = color(255, 0, 0);
+  
+  
+    let v3 = p5.Vector.lerp(v1, v2, t);
+    let v6 = lerpColor(c2, c1, t);
+  
+    drawArrow(v0, v1, 'red');
+    drawArrow(v0, v2, 'blue');
+    drawArrow(v0, v3, v6);
+    drawArrow(v4, v5, 'green');
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(7);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
+```
+
++ ¿Cómo funciona lerp() y lerpColor().
+
+R/
+
+lerp() calcula un valor intermedio entre dos extremos usando una interpolación lineal proporcional.
+
+lerpColor() aplica esa misma interpolación pero sobre los componentes del color.
+
++ ¿Cómo se dibuja una flecha usando drawArrow()?
+
+R/ Se dibuja una línea con la dirección del vector y se rota un triángulo al final para simular la punta de la flecha.
 
 ### Actividad 07
 
@@ -157,5 +217,6 @@ R/ mag() devuelve la magnitud del vector, con magSq() se ahorra la raiz lo cual 
 R/ es una manera de simular fisicas de aceleracion velocidad y posicion y 
 
 ## Bitácora de reflexión
+
 
 
