@@ -230,8 +230,168 @@ En el código, el objeto parte desde el centro con velocidad inicial cero.
 Una aceleración constante hacia la izquierda y abajo se acumula en la velocidad en cada frame, aumentando su magnitud progresivamente.
 La velocidad se limita con topSpeed, y luego se aplica a la posición, haciendo que el objeto caiga diagonalmente hasta alcanzar una velocidad máxima estable.
 
+### Actividad 08
+
++ Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.
+
+R/ 
+
+### Actividad 09
+
++ Describe el concepto de tu obra generativa. Explica el concepto de tu obra generativa, qué regla aplicaste para la aceleración y por qué, si fue una decisión de diseño, o qué te evoca, si fue una exploración artística.
+
+R/ Es una obra generativa basada en muchas partículas que siguen a un punto en movimiento controlado por ruido Perlin. Ese punto nunca se mueve igual, así que el sistema está en cambio constante.
+
+Cada partícula acelera hacia ese punto, pero también se aleja del mouse. La aceleración es la suma de ambas fuerzas más una pequeña variación aleatoria.
+
+La intención fue explorar cómo reglas muy simples —seguir y evitar— pueden producir comportamientos colectivos interesantes. Me interesa observar cómo el sistema reacciona cuando el usuario interviene y altera el flujo.
+
+```js
+let followers = [];
+
+function setup() {
+  createCanvas(640, 640);
+  mover = new Mover();
+
+  for (let i = 0; i < 2000; i++) {
+    followers.push(new Follower());
+  }
+}
+  function keyPressed() {
+  for (let i = 0; i < 200; i++) {
+    let f = new Follower();
+    
+    
+    followers.push(f);
+  }
+}
+function draw() {
+  background(0, 10);
+  
+
+
+  
+  mover.update(frameCount * 0.05*noise(frameCount * 0.001));
+  mover.show();
+
+  for (let f of followers) {
+    f.update(mover.position);
+    f.checkEdges();
+    f.show();
+  }
+}
+
+
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+class Mover {
+  constructor() {
+    this.position = createVector(width / 2, height / 2);
+    
+  }
+
+  update(t) {
+  this.position.x = width * noise(t);
+  this.position.y = height * noise(t + 100); // desplazamos para que no sea igual en x y y
+}
+
+
+  show() {
+    noStroke();
+    
+    fill(0,255,0);
+    circle(this.position.x, this.position.y, 48);
+  }
+
+
+}
+
+
+class Follower {
+  constructor() {
+    this.position = createVector(random(width), random(height));
+    this.velocity = createVector();
+    this.acceleration = createVector();
+    
+    this.topSpeed = 10;
+    this.maxForce = 0.3;
+  }
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  seek(target) {
+    let desired = p5.Vector.sub(target, this.position);
+    desired.normalize();
+    desired.mult(this.topSpeed);
+
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxForce);
+
+    return steer;
+  }
+
+  flee(target) {
+    let desired = p5.Vector.sub(this.position, target);
+    let d = desired.mag();
+
+    if (d < 100) {
+      desired.normalize();
+      desired.mult(this.topSpeed);
+
+      let steer = p5.Vector.sub(desired, this.velocity);
+      steer.limit(this.maxForce * 2); 
+
+      return steer;
+    }
+
+    return createVector(0, 0);
+  }
+
+  update(target) {
+
+    // Reset aceleración cada frame
+    this.acceleration.mult(0);
+
+    let seekForce = this.seek(target);
+    let fleeForce = this.flee(createVector(mouseX, mouseY));
+
+    // Ponderación de fuerzas
+    seekForce.mult(1);
+    fleeForce.mult(2);
+
+    this.applyForce(seekForce);
+    this.applyForce(fleeForce);
+
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.topSpeed);
+    this.position.add(this.velocity);
+  }
+
+  show() {
+    noStroke();
+    fill(255, 0, 0);
+    circle(this.position.x, this.position.y, 2);
+  }
+
+  checkEdges() {
+    if (this.position.x > width) this.position.x = 0;
+    if (this.position.x < 0) this.position.x = width;
+    if (this.position.y > height) this.position.y = 0;
+    if (this.position.y < 0) this.position.y = height;
+  }
+}
+
+```
+<img width="783" height="789" alt="image" src="https://github.com/user-attachments/assets/80ab66f0-673b-404c-8432-cb7a5c3cef58" />
+
+https://editor.p5js.org/Nicofon1/sketches/b_EH8lPQa
 
 ## Bitácora de reflexión
+
 
 
 
