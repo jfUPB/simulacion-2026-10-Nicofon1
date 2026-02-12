@@ -394,5 +394,145 @@ https://editor.p5js.org/Nicofon1/sketches/b_EH8lPQa
 
 
 
+### Actividad 10
+
++ Describe el concepto de tu obra generativa. Explica el concepto de tu obra generativa, qué regla aplicaste para la aceleración y por qué, si fue una decisión de diseño, o qué te evoca, si fue una exploración artística.
+
+R/ Sistema de partículas basado en vectores y aceleración asimétrica. Las entidades interactúan según una matriz de atracción y repulsión por especies, generando cúmulos y persecuciones orgánicas. El rastro acumulado crea una textura visual inspirada en sedimentos biológicos. La obra busca mostrar cómo la ruptura de la simetría física produce comportamientos que simulan vida.
+
+```js
+let particles = [];
+let numParticles = 300; // Ajustado para que el CPU no sufra (O(n^2))
+let numSpecies = 3; 
+let interactionMatrix = [];
+
+function setup() {
+  createCanvas(800, 800);
+  
+  // 1. Matriz de Ventrella: Define la "Personalidad" de las especies
+  // interactionMatrix[A][B] = cómo se siente la especie A respecto a la B
+  for (let i = 0; i < numSpecies; i++) {
+    interactionMatrix[i] = [];
+    for (let j = 0; j < numSpecies; j++) {
+      // Valor positivo: atracción | Valor negativo: repulsión
+      interactionMatrix[i][j] = random(-1, 1);
+    }
+  }
+
+  // 2. Crear las partículas
+  for (let i = 0; i < numParticles; i++) {
+    let species = floor(random(numSpecies));
+    particles.push(new Particle(species));
+  }
+  
+  background(10); // Fondo oscuro estilo Tarbell
+}
+
+function draw() {
+  // Estética Tarbell: rastro muy suave
+  background(10, 15); 
+
+  for (let p of particles) {
+    p.applyInteractions(particles);
+    p.update();
+    p.checkEdges();
+    p.show();
+  }
+}
+
+class Particle {
+  constructor(species) {
+    this.species = species;
+    this.position = createVector(random(width), random(height));
+    this.velocity = p5.Vector.random2D();
+    this.acceleration = createVector();
+    
+    this.topSpeed = 3;
+    this.maxForce = 0.15;
+    this.friction = 0.95; // Para que no se descontrolen (física orgánica)
+    
+    // Colores tipo Jared Tarbell (paleta desaturada y elegante)
+    let colors = [
+      color(255, 100, 50, 80),  // Especie 0
+      color(100, 200, 255, 80), // Especie 1
+      color(240, 240, 240, 80)  // Especie 2
+    ];
+    this.col = colors[this.species];
+  }
+
+  // Aquí está el corazón de "Clusters" de Ventrella
+  applyInteractions(others) {
+    let steering = createVector(0, 0);
+    let count = 0;
+    let perceptionRadius = 100; // Radio de visión
+
+    for (let other of others) {
+      if (other !== this) {
+        let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+        
+        if (d > 0 && d < perceptionRadius) {
+          // 1. Calcular vector dirección (Ejemplo 1.10 Nature of Code)
+          let force = p5.Vector.sub(other.position, this.position);
+          force.normalize();
+          
+          // 2. Aplicar la ASIMETRÍA de Ventrella
+          // Obtenemos el deseo (atracción/repulsión) de mi especie hacia la suya
+          let strength = interactionMatrix[this.species][other.species];
+          
+          // Si d es muy pequeño, siempre hay una repulsión física para que no colapsen
+          if (d < 20) {
+            force.mult(-1.5); // Repulsión de contacto
+          } else {
+            force.mult(strength); // Atracción/repulsión social
+          }
+          
+          steering.add(force);
+          count++;
+        }
+      }
+    }
+
+    if (count > 0) {
+      steering.div(count);
+      steering.setMag(this.maxForce);
+      this.acceleration.add(steering);
+    }
+  }
+
+  update() {
+    // Motion 101
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.topSpeed);
+    this.position.add(this.velocity);
+    
+    // Aplicar un poco de fricción para que el movimiento sea más "líquido"
+    this.velocity.mult(this.friction);
+    
+    // Limpiar aceleración
+    this.acceleration.mult(0);
+  }
+
+  show() {
+    // Estética Jared Tarbell: 
+    // En lugar de círculos, dibujamos una pequeña línea que indica dirección
+    stroke(this.col);
+    strokeWeight(1.2);
+    let prevPos = p5.Vector.sub(this.position, p5.Vector.mult(this.velocity, 2));
+    line(this.position.x, this.position.y, prevPos.x, prevPos.y);
+  }
+
+  checkEdges() {
+    // Bordes infinitos (Toroidal)
+    if (this.position.x > width) this.position.x = 0;
+    if (this.position.x < 0) this.position.x = width;
+    if (this.position.y > height) this.position.y = 0;
+    if (this.position.y < 0) this.position.y = height;
+  }
+}
+```
+<img width="813" height="762" alt="image" src="https://github.com/user-attachments/assets/94d3d6a3-e133-43bf-8492-29bb3ea245d2" />
+
+
+[https://editor.p5js.org/Nicofon1/sketches/b_EH8lPQa](https://editor.p5js.org/Nicofon1/sketches/0tcdI2GHd)
 
 
