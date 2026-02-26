@@ -563,3 +563,182 @@ class Star {
 ```
 ## Bitácora de reflexión
 
+
+### Actividad 05
+
++  ¿Qué es el marco de movimiento motion 101 y cómo se relacionan: fuerza, aceleración, velocidad y posición?
+
+
+R/ el motion 101 es uan forma de simular propiedades fisicas en codigo con el cual te puedes manejar vectorialmente propiedades de fuerza aceleracion velocidade y fuerza, la relacion entre estas es q la fuerza junto con la masa se relacionan para darte una aceleracion, frame a frame la magnitud de la aceleracion se le adiciona a la velocidad, en sus ambas componentes, la velocidad a la posicion y de esta manera se logra simular y se consigue toda la simulacion
+
++ Vas a analizar este video sobre el artista Alexander Calder. Selecciona una de sus obras y luego crea una obra generativa inspirada en la obra de Calder que seleccionaste y el marco de movimiento motion 101 con fuerzas que trabajamos en esta unidad.
+
+https://editor.p5js.org/Nicofon1/sketches/7K153zcqu
+
+<img width="913" height="758" alt="image" src="https://github.com/user-attachments/assets/5e3efffb-89f4-4aa3-ad8f-177ec41380f1" />
+
+```js
+let system;
+
+function setup() {
+  createCanvas(900, 800);
+  angleMode(RADIANS);
+  system = new MobileSystem(width / 2, 120);
+  
+}
+
+function draw() {
+  background(0,5);
+
+  system.update();
+  system.display();
+}
+
+
+/* =========================
+   MOBILE SYSTEM
+========================= */
+
+class MobileSystem {
+  constructor(x, y) {
+    this.origin = createVector(x, y);
+    this.root = this.createBranch(this.origin, 7);
+  }
+
+  createBranch(origin, depth) {
+    if (depth <= 0) return null;
+
+    let length = random(70, 150);
+    let angle = random(-1, 1);
+    let massSize = random(10, 26);
+
+    let arm = new Arm(origin, length, angle, massSize);
+
+    arm.child = this.createBranch(null, depth - 1);
+
+    if (random() < 0.65) {
+      arm.secondary = this.createBranch(null, depth - 2);
+    }
+
+    return arm;
+  }
+
+  update() {
+    this.root.update(this.origin);
+  }
+
+  display() {
+    this.root.display();
+  }
+}
+
+
+/* =========================
+   ARM
+========================= */
+
+class Arm {
+  constructor(origin, length, angle, massSize) {
+    this.origin = origin;
+    this.length = length;
+    this.angle = angle;
+
+    this.aVel = random(-0.01, 0.01);
+    this.aAcc = 0;
+
+    this.damping = 0.995;
+    this.massSize = massSize;
+
+    this.child = null;
+    this.secondary = null;
+
+    this.color = color(
+      random(100, 220),
+      random(100, 220),
+      random(100, 220),
+      190
+    );
+  }
+
+  update(parentOrigin) {
+    if (parentOrigin) {
+      this.origin = parentOrigin;
+    }
+
+    let gravity = 0.35;
+    this.aAcc = (-gravity / this.length) * sin(this.angle);
+
+    // VIENTO DEL MOUSE (atracción suave)
+    let end = this.getEnd();
+    let mouse = createVector(mouseX, mouseY);
+    let dir = p5.Vector.sub(mouse, end);
+    let dist = dir.mag();
+
+    if (dist < 250) {
+      dir.normalize();
+      let strength = map(dist, 0, 250, 0.02, 0);
+      this.aAcc += dir.x * strength * 0.5;
+    }
+
+    // Variación orgánica
+    let organic = noise(frameCount * 0.01 + this.length) - 0.5;
+    this.aAcc += organic * 0.002;
+
+    this.aVel += this.aAcc;
+    this.aVel *= this.damping;
+    this.angle += this.aVel;
+
+    if (this.child) this.child.update(end);
+    if (this.secondary) this.secondary.update(end);
+  }
+
+  getEnd() {
+    let x = this.origin.x + this.length * sin(this.angle);
+    let y = this.origin.y + this.length * cos(this.angle);
+    return createVector(x, y);
+  }
+
+  display() {
+    let end = this.getEnd();
+
+    // brazo
+
+    
+    stroke(255);
+    
+    strokeWeight(2);
+    line(this.origin.x, this.origin.y, end.x, end.y);
+
+    // masa orgánica
+    push();
+    translate(end.x, end.y);
+    noStroke();
+    fill(this.color);
+
+    beginShape();
+    for (let i = 0; i < 30; i++) {
+      let ang = map(i, 0, 30, 0, TWO_PI);
+      let r =
+        this.massSize +
+        noise(i * 0.4, frameCount * 0.02) * this.massSize * 0.4;
+      vertex(r * cos(ang), r * sin(ang));
+    }
+    endShape(CLOSE);
+    pop();
+
+    if (this.child) this.child.display();
+    if (this.secondary) this.secondary.display();
+  }
+}
+
+
+/* =========================
+   CLICK = IMPULSO
+========================= */
+
+function mousePressed() {
+  system.root.aVel += random(-0.2, 0.2);
+}
+```
+
+
