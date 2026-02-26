@@ -344,6 +344,222 @@ class Mover {
 
 ## Bitácora de aplicación 
 
+### Actividad 02
+
++ Describe el concepto de tu obra generativa.
 
 
+R/
+
+<img width="942" height="617" alt="image" src="https://github.com/user-attachments/assets/f58b96be-8181-4720-94e5-390954ef516e" />
+
+https://editor.p5js.org/Nicofon1/sketches/Umx-Sl1Am
+  
+```js
+let stones = [];
+let particles = [];
+let stars = [];
+
+let gravity;
+let waterLevel;
+let baseWaterLevel;
+
+function setup() {
+  createCanvas(900, 500);
+  colorMode(HSL, 360, 100, 100, 1);
+
+  gravity = createVector(0, 0.22);
+  baseWaterLevel = height * 0.7;
+
+  // Crear estrellas
+  for (let i = 0; i < 120; i++) {
+    stars.push(new Star());
+  }
+}
+
+function draw() {
+
+  // Fondo oscuro con leve persistencia
+  noStroke();
+  fill(220, 30, 8, 0.25);
+  rect(0, 0, width, height);
+
+  drawStars();
+
+  waterLevel = baseWaterLevel + sin(frameCount * 0.01) * 5;
+  drawWater();
+
+  gravity.y = 0.2 + noise(frameCount * 0.01) * 0.05;
+
+  // STONES
+  for (let i = stones.length - 1; i >= 0; i--) {
+    let s = stones[i];
+    s.applyForce(gravity);
+
+    if (s.position.y + s.h/2 > waterLevel) {
+
+      if (s.velocity.x > 2 && s.velocity.y > 0) {
+        let liftStep = s.velocity.x * 0.35;
+        s.applyForce(createVector(0, -liftStep));
+        s.velocity.x *= 0.95;
+
+        for (let j = 0; j < 3; j++) {
+          particles.push(new Particle(s.position.x, waterLevel));
+        }
+      }
+
+      let drag = s.velocity.copy();
+      drag.mult(-0.08);
+      s.applyForce(drag);
+
+      s.applyForce(createVector(0, -0.08));
+    }
+
+    s.update();
+    s.showGlow(); // <- dibujamos glow primero
+    s.show();
+
+    if (s.offScreen()) stones.splice(i, 1);
+  }
+
+  // PARTICLES
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update();
+    particles[i].show();
+    if (particles[i].life <= 0) particles.splice(i, 1);
+  }
+}
+
+function mousePressed() {
+  let vx = random(6, 18);
+  let vy = random(1, 3);
+  stones.push(new Stone(20, waterLevel - 20, vx, vy));
+}
+
+function drawWater() {
+  noStroke();
+  fill(210, 70, 25, 0.4);
+
+  beginShape();
+  vertex(0, height);
+
+  for (let x = 0; x <= width; x += 12) {
+    let wave = noise(x * 0.01, frameCount * 0.01) * 20;
+    vertex(x, waterLevel + wave);
+  }
+
+  vertex(width, height);
+  endShape(CLOSE);
+}
+
+function drawStars() {
+  for (let star of stars) {
+    star.update();
+    star.show();
+  }
+}
+
+class Stone {
+  constructor(x, y, vx, vy) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(vx, vy);
+    this.acceleration = createVector(0, 0);
+    this.mass = 1;
+    this.w = random(20, 40);
+    this.h = random(8, 16);
+    this.angle = random(TWO_PI);
+  }
+
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acceleration.add(f);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.acceleration.mult(0);
+
+    if (this.velocity.x > 0.5) {
+      this.angle += this.velocity.x * 0.03;
+    }
+  }
+
+  showGlow() {
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(sin(this.angle) * 0.15);
+
+    let speed = this.velocity.mag();
+    let hue = map(speed, 0, 20, 190, 230);
+
+    noStroke();
+    fill(hue, 60, 60, 0.15);
+    ellipse(0, 0, this.w * 2.5, this.h * 2.5);
+
+    pop();
+  }
+
+  show() {
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(sin(this.angle) * 0.15);
+
+    let speed = this.velocity.mag();
+    let hue = map(speed, 0, 20, 190, 230);
+    let light = map(this.position.y, 0, height, 50, 75);
+
+    fill(hue, 50, light, 0.9);
+    noStroke();
+    ellipse(0, 0, this.w, this.h);
+
+    pop();
+  }
+
+  offScreen() {
+    return (this.position.x > width || this.position.y > height);
+  }
+}
+
+class Particle {
+  constructor(x, y) {
+    this.position = createVector(x, y);
+    this.velocity = createVector(random(-1, 1), random(-2, -0.5));
+    this.life = 80;
+  }
+
+  update() {
+    this.position.add(this.velocity);
+    this.velocity.mult(0.97);
+    this.life -= 2;
+  }
+
+  show() {
+    noStroke();
+    fill(200, 70, 70, this.life / 100);
+    ellipse(this.position.x, this.position.y, 4);
+  }
+}
+
+class Star {
+  constructor() {
+    this.x = random(width);
+    this.y = random(height * 0.6);
+    this.size = random(1, 3);
+    this.offset = random(1000);
+  }
+
+  update() {}
+
+  show() {
+    let twinkle = noise(this.offset + frameCount * 0.01);
+    let brightness = map(twinkle, 0, 1, 60, 100);
+
+    noStroke();
+    fill(60, 20, brightness, 0.8);
+    ellipse(this.x, this.y, this.size);
+  }
+}
+```
 ## Bitácora de reflexión
+
