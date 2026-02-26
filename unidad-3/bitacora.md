@@ -349,7 +349,7 @@ class Mover {
 + Describe el concepto de tu obra generativa.
 
 
-R/
+R/ de pequeño recuerdo mucho q cuando estaba estresado me iba a como una especie de fuente de agua grande en mi colegio y me ponia a lanzar pidras y q rebotaran, al hacer la actividad del drag me di cuenta q al tirar algo muy rapido al "agua" me rebotaba, y me hizo recordar todo esto, tons quise hacer algo que transmitiera esa calma y relajacion que me daba hacer rebotar piedras
 
 <img width="942" height="617" alt="image" src="https://github.com/user-attachments/assets/f58b96be-8181-4720-94e5-390954ef516e" />
 
