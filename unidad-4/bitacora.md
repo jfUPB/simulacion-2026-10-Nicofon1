@@ -276,3 +276,108 @@ function draw() {
   p2.show();
 }
 ```
+
+### Actividad 10
+
++ Modifica esta simulación para crear un sistema de dos péndulos conectados en serie.
+
+R/ Mi obra se basa en la narrativa de una "Marea Reactiva". La idea es simular un ecosistema de plankton bioluminiscente en el que la regla principal es la perturbación: los organismos mantienen un estado de calma azul y movimiento armónico (ondas) hasta que detectan movimiento externo (el mouse).
+
+https://editor.p5js.org/Nicofon1/sketches/HjfIkBxHH
+
+<img width="941" height="788" alt="image" src="https://github.com/user-attachments/assets/965488ca-4211-4af1-b969-6e80fccad03b" />
+
+```
+let strands = [];
+
+function setup() {
+  createCanvas(800, 600);
+  for (let i = 0; i < 6; i++) {
+    strands.push(new Colony(random(100, height - 100)));
+  }
+}
+
+function draw() {
+  background(5, 10, 20, 70); 
+  
+  for (let s of strands) {
+    s.update();
+    s.show();
+  }
+}
+
+function keyPressed() {
+  if (key === 'a' || key === 'A') {
+    strands.push(new Colony(random(height)));
+  }
+}
+
+class Colony {
+  constructor(baseY) {
+    this.baseY = baseY;
+    this.points = [];
+    this.t = random(1000); 
+    
+    for (let x = 0; x <= width; x += 30) {
+      this.points.push({
+        x: x,
+        y: 0,
+        angle: map(x, 0, width, 0, TWO_PI * 1.5),
+        offset: random(1000) 
+      });
+    }
+  }
+
+  update() {
+    this.t += 0.01;
+    let mouse = createVector(mouseX, mouseY);
+
+    for (let p of this.points) {
+      let waveY = sin(p.angle + frameCount * 0.04) * 50;
+      let currentShift = noise(p.x * 0.01, this.t) * 30;
+      
+      let targetPos = createVector(p.x, this.baseY + waveY + currentShift);
+      
+      let d = p5.Vector.dist(mouse, targetPos);
+      p.distToMouse = d;
+      
+      if (d < 120) {
+        let fear = p5.Vector.sub(targetPos, mouse);
+        fear.setMag(map(d, 0, 120, 60, 0));
+        targetPos.add(fear); 
+      }
+      
+      p.currentPos = targetPos;
+
+      p.dynamicSize = map(noise(p.x * 0.05, this.t), 0, 1, 2, 20);
+    }
+  }
+
+  show() {
+    for (let p of this.points) {
+      let glow = map(sin(p.angle + frameCount * 0.1), -1, 1, 80, 255);
+      
+      let blueCol = color(0, 100, 255);
+      let greenCol = color(0, 255, 150);
+      
+      let amt = map(p.distToMouse, 0, 150, 1, 0);
+      amt = constrain(amt, 0, 1);
+      let finalCol = lerpColor(blueCol, greenCol, amt);
+      
+      noStroke();
+      fill(red(finalCol), green(finalCol), blue(finalCol), glow - 50);
+      circle(p.currentPos.x, p.currentPos.y, p.dynamicSize * 2.5); 
+      
+      fill(255, glow);
+      circle(p.currentPos.x, p.currentPos.y, p.dynamicSize * 0.6); 
+    }
+  }
+}
+
+function mousePressed() {
+  for (let s of strands) {
+    s.baseY = constrain(s.baseY + random(-100, 100), 50, height-50);
+  }
+}
+
+```
