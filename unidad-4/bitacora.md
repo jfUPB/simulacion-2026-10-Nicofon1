@@ -381,3 +381,6 @@ function mousePressed() {
 }
 
 ```
+
+<img width="1276" height="4826" alt="d2" src="https://github.com/user-attachments/assets/e199f0e8-62ae-4905-b849-63facb280bf2" />
+ Veo oportunidades en hacer webs q no sean tan rígidas, usando física para q los botones o menús se sientan más naturales. Tmbn para mostrar datos de forma más movida y no solo con tablas aburridas, o para crear landing pages q llamen mas la atención con cosas q reaccionen al mouse. Básicamente ayuda a q lo q programe no se vea tan mecánico.
