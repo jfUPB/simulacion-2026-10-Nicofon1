@@ -410,3 +410,22 @@ class Prism {
 
 
 
+
+### Actividad 06
+
+**Parte 1 — Principios fundamentales**
+
+1. **Estado**: cada partícula guarda su propia información física como posición y velocidad.
+2. **Ciclo de vida**: tienen un inicio, una transformación y un final; no duran para siempre.
+3. **Colecciones**: el sistema organiza grupos de elementos que aparecen o desaparecen dinámicamente.
+4. **Memoria**: saber cuándo crear y cuándo eliminar es fundamental para el rendimiento del programa.
+5. **Responsabilidad**: hay que separar lo que hace cada partícula de la lógica que las controla a todas.
+6. **Emisor**: es la clase o abstracción que simplifica la gestión de miles de objetos individuales.
+7. **Jerarquía**: se pueden crear sistemas complejos donde un emisor maneja otros sub-emisores.
+8. **Diversidad**: se pueden mezclar comportamientos distintos en un mismo grupo usando herencia.
+9. **Fuerzas**: el sistema puede aplicar fuerzas globales (como gravedad) o locales (como repellers).
+10. **Apariencia**: la lógica de cómo se mueven es independiente de cómo se dibujan visualmente.
+
+**Parte 2 — Transferencia**
+
+R/ me gustaria hacerlo en touch designer, en cuanto a logica creo que se mantrendia igual, desconosco touch designer ent no estoy seguro se se podria manejar una especie de clases y polimorfismo con herencia, solamente desde los nodos, si no ps tmbn se podria hacer con python, pero de base la logiac se mantendria igual lo diferente son el medio, acostubrarme a los nodos y depronto aprender a usar los pops para manejar las particulas desde la grafica
