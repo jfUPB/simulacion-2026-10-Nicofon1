@@ -1,6 +1,114 @@
 # Unidad 8
 
-https://drive.google.com/file/d/1SVv9lumhmWPuIjC50l9CZ7YfvLaP2hkh/view?usp=sharing
+## Apply: Aplicación 
+
+
+### **Actividad 05: Diseño e implementación de una pieza visual transferida**
+
+
+**1. Herramienta elegida.**
+
+R/ Se seleccionó **Three.js con WebGPU y TSL** (Three.js Shading Language). La elección se fundamentó en el trabajo de Bruno Simon, quien ha sido un referente artístico y técnico para el autor. Esta actividad permitió abordar el manejo de partículas con TSL, un interés técnico y artistico que para mi siempre ha sido muy llamativo.
+
+**2. Sistema transferido.**
+
+R/ Se implementó la transferencia de un sistema de **Flow Field** combinado con **Random Walkers** que actúan como atractores de el millon de particulas procesadas.
+
+**3. Contexto profesional concreto.**
+
+R/ La pieza se proyectó como un componente visual para instalaciones digitales inmersivas. este tipo de arte trabajado con web gpu me encanta y siempre he tenido como la gana oculta de no dedicarme solo a lo tecnico si no convivir con lo artistico y estoy seguro tomo esa desicion sere artista tecnico de three pq aparte de todo me encanta que casi cualquier persona lopueda ver y experimentar obras en la mayria de computadores.
+
+**4. Concepto visual.**
+
+R/ Aunque la intención inicial era crear rayos de atracción, la iteración técnica y el ajuste de parámetros transformaron la pieza en una representación de un **tornado o remolino de energía**, donde las fuerzas absorven particulas de manera orgánica, ademas como comportamiento emergente terminaron apareciendo eventualmente patrones de rastro particulares o pequenos cucloides con actitudes muy particulares y llamativas, recuerda mucho a spectro patronum de harry poter.
+
+**5. Referencias.**
+
+R/ La lógica del buffer de partículas en TSL se inspiró en el código de ejemplo desarrollado por Bruno Simon: [WebGPU TSL Compute Attractors Particles]
+(https://threejs.org/examples/?q=particles#webgpu_tsl_compute_attractors_particles).
+
+
+
+https://co.pinterest.com/pin/504614333265918301/
+
+https://co.pinterest.com/pin/794955771768920789/
+
+
+
+<img width="540" height="540" alt="image" src="https://github.com/user-attachments/assets/93841826-f1a0-45cf-a009-276a5b1f614d" />
+
+
+
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/0a807ad2-21e0-41b5-85d9-e04fae92f4d9" />
+
+
+
+**6. Bocetos.**
+
+
+R/
+
+
+<img width="414" height="349" alt="161acf12-b22e-4bcf-b44d-0586ac10f6c5" src="https://github.com/user-attachments/assets/6b2cdd2a-731a-42b9-b767-e3adec9838d8" />
+
+
+<img width="684" height="713" alt="fdcd8d34-01a7-405e-8bce-90cf9db97f4f" src="https://github.com/user-attachments/assets/c1c827de-dc86-4447-8ec7-29f32b96af45" />
+
+
+**7. Explicación de la transferencia.**
+
+
+R/ El proceso consistió en migrar la lógica de cálculo de CPU (típica en p5.js) hacia la **GPU** mediante TSL. En lugar de procesar partículas individualmente con ciclos, se crearon buffers (`instancedArray`) para gestionar un millón de partículas directamente en la gpu. Se definió una función de cómputo que aplica a cada partícula la dirección del *Flow Field* (calculada con ruido 3D) y la fuerza de atracción de los *walkers*, ha pesar de no terminar de interiorisar el manejo de tsl si ha sido una gran motivacion para profundizar y aprovechar la gpu pa evitar cuellos de botella por cpu.
+
+**8. Mapa de decisiones.**
+
+
+- **Sistema**: Combinación de Flow Field base y Walkers como atractores.
+- **Herramienta**: Three.js WebGPU, seleccionada por su rendimiento para manejar grandes volúmenes de datos sin comprometer la fluidez del navegador.
+- **Visualidad**: Estética de partículas brillantes con estela en tonos azul y amarillo sobre fondo negro para resaltar el concepto de energía.
+- **Interacción**: Controles en tiempo real mediante una GUI (lil-gui) para manipular velocidades, radios y fuerzas durante la ejecución.
+
+**9. Mapa de presentación.**
+
+
+R/ La visualización se realiza en pantalla completa en el navegador. La presentación inicia permitiendo que el sistema evolucione de forma autónoma hasta formar el tornado mientras la cámara ejecuta un `autoRotate`. Eventualmente, se utiliza la GUI para demostrar la reactividad del sistema ante cambios de parámetros, manteniendo la limpieza visual de la obra.
+
+**10. Evidencia del uso de IA.**
+
+
+R/ se utilizo principalmente para comprender el sitema del referente inicial, capturar el manejo de buffer y particulas del referente, y para traducir las intenciones tecnicas desde codigo tradicional de cpu para tranformarlo y acoplarlo a la arquitectura de tsl.
+
+
+<img width="684" height="713" alt="fdcd8d34-01a7-405e-8bce-90cf9db97f4f" src="https://github.com/user-attachments/assets/a759c28c-a81c-4648-b314-16d4b0991b88" />
+
+
+<img width="414" height="349" alt="161acf12-b22e-4bcf-b44d-0586ac10f6c5" src="https://github.com/user-attachments/assets/625f6387-0998-4336-ba5f-74748aa4587e" />
+
+
+**7. Explicación de la transferencia.**
+
+
+R/ Pasar esto de p5.js a TSL me costo demasiado y no lo termine de apropiar pq ya no se calcula cada partícula en el CPU con un ciclo `for` normal. Acá se crea buffers (`instancedArray`) para un millón de partículas directo en la memoria de la GPU. Con TSL definí una función de cómputo (`compute`) q le aplica a cada partícula la dirección del Flow Field (calculada con ruido 3D) y tmbn le suma una fuerza para q persiga el rastro q dejan los dos walkers.
+
+**8. Mapa de decisiones.**
+
+R/
+
+- **Sistema**: Flow Field base + Walkers q actúan como atractores.
+- **Herramienta**: Three.js WebGPU, pq es lo único q aguanta manejar 1 millón de partículas sin q se trabe el navegador.
+- **Visualidad**: Partículas brillantes con estela (azul y amarillo) sobre fondo negro para resaltar ese look de energía pura del tornado.
+- **Interacción**: Controles en tiempo real con una GUI (lil-gui) para poder jugar en vivo con velocidades, radios y fuerzas.
+
+**9. Mapa de presentación.**
+
+
+ R/ Se muestra la pieza corriendo a pantalla completa. La presentación arranca dejando q el sistema fluya solo para q se vaya armando el tornado, mientras la cámara hace el giro en automático. Ya después, para mostrar q el sistema es reactivo, abro la GUI un momento, le muevo los parámetros de fuerza o velocidad en vivo y usando las funciones de los botones qwer para mostrar diferentes comportamientos que la obra puede tomar y la vuelvo a esconder para dejar la obra andando sola.
+
+ 
+**10. Evidencia del uso de IA.**
+
+
+R/ Usé IA más q todo como guía técnica para entender la sintaxis de TSL, pq es algo súper nuevo y a veces confunde cómo armar las funciones (`Fn()`, `uniform()`, etc.). La toma de decisiones de la estética, la evolución hacia el tornado, la mezcla de los dos sistemas y el ajuste de los colores y velocidades, fueron pruebas mías.
 
 ```
 <!DOCTYPE html>
