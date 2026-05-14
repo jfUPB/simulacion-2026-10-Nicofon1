@@ -108,7 +108,10 @@ R/
 **10. Evidencia del uso de IA.**
 
 
-R/ Usé IA más q todo como guía técnica para entender la sintaxis de TSL, pq es algo súper nuevo y a veces confunde cómo armar las funciones (`Fn()`, `uniform()`, etc.). La toma de decisiones de la estética, la evolución hacia el tornado, la mezcla de los dos sistemas y el ajuste de los colores y velocidades, fueron pruebas mías.
+R/ me apoye bastante con antigravity sobretodo para comprender el codigo del referente de bruno simons, extraer la logica de tsl y particulas y lograr traducir de codigo normal de js  y la logica qu conosia de flowfields y random walkers y reestructurarlo para aplicarlo a la logica de tsl y manejo de objetos a travez del buffer.
+
+**video**
+https://drive.google.com/file/d/1SVv9lumhmWPuIjC50l9CZ7YfvLaP2hkh/view?usp=sharing
 
 ```
 <!DOCTYPE html>
